@@ -14,15 +14,19 @@ const { NotImplementedError } = require('../extensions/index.js');
  */
 function getSumOfDigits(n) {
 
-   let currNum = n.toString().split('');
-   let numberLength = currNum.length;
-   if (numberLength != 1) {
-      numberLength = currNum.reduce((a, b) => a + b);
-      return getSumOfDigits(n);
-   } else if (numberLength == 1) {
-      numberLength = currNum.join('');
-      return numberLength;
+
+   let currArr = n.toString().split('');
+   let currNum = 0;
+   if (currArr.length != 1) {
+      for (let i = 0; i < currArr.length; i++) {
+         currNum = currNum + (+currArr[i]);
+      }
+      return getSumOfDigits(currNum)
+   } else if (currArr.length == 1) {
+      currNum = currArr.join('');
    }
+
+   return +currNum;
 }
 
 module.exports = {

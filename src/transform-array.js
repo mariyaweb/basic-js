@@ -14,41 +14,41 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function transform(arr) {
-   if (!Array.isArray(arr)) {
-      throw new Error("'arr' parameter must be an instance of the Array!");
-   }
-   if (arr.length == 0 || !arr.includes('--discard-next') || !arr.includes('--discard-prev') || !arr.includes("--double-next") || !arr.includes("--double-prev")) {
-      return arr;
-   }
 
-   let count = 0;
-   let arrTr = arr;
-   let a = [];
+  if (!Array.isArray(arr)) {
+    throw new Error("'arr' parameter must be an instance of the Array!");
+  }
 
+  let arrTr = arr.slice();
+  let res = [];
+  if (!Array.isArray(arr)) {
+    throw new Error("'arr' parameter must be an instance of the Array!");
+  }
 
-   for (let i = 0; i < arr.length; i++) {
-      if (arrTr[i] !== "--discard-next" || arrTr[i] !== "--discard-prev" || arrTr[i] !== "--double-next" || arrTr[i] !== "--double-prev") {
-         a.push(arrTr[i]);
-      } if (arrTr[i] == "--discard-next" && arrTr[i + 1] != undefined) { //исключает след элемент из массива
-         i++;
-         arrTr.splice(i);
-      } else if (arrTr[i] == "--discard-prev" && arrTr[i - 1] != undefined) { //исключает предыдущий элемент массива из преобразованного массива
-         a.pop();
-         arrTr.splice(i);
-      } else if (arrTr[i] == "--double-next" && arrTr[i + 1] != undefined) { //дублирует следующий элемент массива в преобразованном массиве
-         a.push(arr[i + 1]);
-         arrTr.splice(i);
-      } else if (arrTr[i] == "--double-prev" && arrTr[i - 1] != undefined) {//дублирует предыдущий элемент массива в преобразованном массиве
-         a.push(arr[i - 1]);
-         a.push(arr[i - 1]);
-         arrTr.splice(i);
-      }
-   }
+  if (!arr.length || (!arr.includes('--discard-next') && !arr.includes('--discard-prev')
+    && !arr.includes("--double-next") && !arr.includes("--double-prev"))) {
+    return arr;
+  }
 
+  arrTr.forEach((item, index) => {
+    if (typeof (item) === "number") {
+      res.push(item);
+    } else if (item === '--discard-next') {
+      arrTr.splice(index, 2);
+    } else if (item === '--discard-prev') {
+      res.pop();
+    } else if (item === '--double-next') {
+      res.push(arrTr[1 + index]);
+    } else if (item === '--double-prev') {
+      res.push(res[res.length - 1]);
+    }
+  })
 
-   return a;
-};
+  return res.filter(item => typeof item === 'number');
+
+}
+
 
 module.exports = {
-   transform
+  transform
 };

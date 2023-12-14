@@ -31,9 +31,7 @@ function transform(arr) {
   }
 
   arrTr.forEach((item, index) => {
-    if (typeof (item) === "number") {
-      res.push(item);
-    } else if (item === '--discard-next') {
+    if (item === '--discard-next') {
       arrTr.splice(index, 2);
     } else if (item === '--discard-prev') {
       res.pop();
@@ -41,10 +39,22 @@ function transform(arr) {
       res.push(arrTr[1 + index]);
     } else if (item === '--double-prev') {
       res.push(res[res.length - 1]);
+    } else {
+      res.push(item);
     }
   })
 
-  return res.filter(item => typeof item === 'number');
+
+
+  return res.filter(item => {
+    if (item != '--discard-next'
+      || item != '--discard-prev'
+      || item != '--double-next'
+      || item != '--double-prev'
+      || item != 'undefined') {
+      return item;
+    }
+  });
 
 }
 

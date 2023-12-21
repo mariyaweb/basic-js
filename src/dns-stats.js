@@ -25,17 +25,13 @@ const { NotImplementedError } = require('../extensions/index.js');
 function getDNSStats(domains) {
   let arrItems = domains.map(item => item.split('.').reverse());
   let arrTransform = [];
-  let count = 0;
   let res = {};
-  //Перебрать массив и добавить домены
-  //Если такой домен уже есть в объекте, тогда его значению прибавить 1
-  //Если домена нет, то добавить и счётчик 1
-  console.log(arrItems);
+
   arrItems.forEach((item) => {
     arrTransform.push(
       item.map((el, elIndex, arr) => `.${arr.slice(0, elIndex + 1).join('.')}`));
   })
-  console.log(arrTransform);
+
 
   arrTransform.forEach((item) => {
     item.forEach(el => {
@@ -44,10 +40,9 @@ function getDNSStats(domains) {
       } else {
         res[el] = 1;
       }
-
     })
   })
-  console.log(res);
+
   return res;
 }
 

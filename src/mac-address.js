@@ -15,15 +15,13 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function isMAC48Address(n) {
-   if (/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(n)) {
-      // console.log('y');
-      return true;
-   } else {
-      // console.log('n');
-      return false;
-   }
+  if (/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(n)) {
+    return true;
+  } else {
+    return false;
+  }
 
 }
 module.exports = {
-   isMAC48Address
+  isMAC48Address
 };
